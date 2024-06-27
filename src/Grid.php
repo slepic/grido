@@ -637,7 +637,7 @@ class Grid extends Components\Container
     {
         $this->propertyAccessor = new PropertyAccessor(
             PropertyAccessor::MAGIC_CALL | PropertyAccessor::MAGIC_GET | PropertyAccessor::MAGIC_SET,
-            PropertyAccessor::THROW_ON_INVALID_INDEX | PropertyAccessor::THROW_ON_INVALID_PROPERTY_PATH
+            PropertyAccessor::THROW_ON_INVALID_INDEX
         );
 
         return $this->propertyAccessor;
