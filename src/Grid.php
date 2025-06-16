@@ -611,15 +611,19 @@ class Grid extends Components\Container
      */
     public function getProperty($object, $name)
     {
-        if ($object instanceof \Nette\Database\Table\IRow && \Nette\Utils\Strings::contains($name, '.')) {
-            $parts = explode('.', $name);
-            foreach ($parts as $item) {
-                if (is_object($object)) {
-                    $object = $object->$item;
+        if ($object instanceof \Nette\Database\Table\IRow) {
+            if (\Nette\Utils\Strings::contains($name, '.')) {
+                $parts = explode('.', $name);
+                foreach ($parts as $item) {
+                    if (is_object($object)) {
+                        $object = $object->$item;
+                    }
                 }
-            }
 
-            return $object;
+                return $object;
+            } else {
+                return $object->$name;
+            }
         }
 
         if (is_array($object)) {
@@ -637,7 +641,7 @@ class Grid extends Components\Container
     {
         $this->propertyAccessor = new PropertyAccessor(
             PropertyAccessor::MAGIC_CALL | PropertyAccessor::MAGIC_GET | PropertyAccessor::MAGIC_SET,
-            PropertyAccessor::THROW_ON_INVALID_INDEX
+            PropertyAccessor::THROW_ON_INVALID_INDEX | PropertyAccessor::THROW_ON_INVALID_PROPERTY_PATH
         );
 
         return $this->propertyAccessor;
